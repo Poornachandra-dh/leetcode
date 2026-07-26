@@ -29,9 +29,9 @@ class Solution {
         }
 
         // Invalid case
-        if (target < 0 || index == candidates.length) {
+       if (target < 0 || index == candidates.length) {
             return;
-        }
+       }
 
         // Choose current number
         list.add(candidates[index]);
