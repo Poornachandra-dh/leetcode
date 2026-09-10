@@ -1,47 +1,40 @@
 import java.util.*;
 
 class Solution {
-
-    List<List<Integer>> ans = new ArrayList<List<Integer>>();
-
     public List<List<Integer>> subsetsWithDup(int[] nums) {
 
+        List<List<Integer>> result = new ArrayList<>();
+
+        // Sort so duplicates come together
         Arrays.sort(nums);
 
-        List<Integer> list = new ArrayList<Integer>();
+        backtrack(nums, 0, new ArrayList<>(), result);
 
-        backtrack(0, nums, list);
-
-        return ans;
+        return result;
     }
 
-    public void backtrack(int index, int[] nums, List<Integer> list) {
+    private void backtrack(int[] nums, int start,
+                           List<Integer> current,
+                           List<List<Integer>> result) {
 
-        // Create a copy of the current subset
-        List<Integer> temp = new ArrayList<Integer>();
+        // Every state is a valid subset
+        result.add(new ArrayList<>(current));
 
-        for (int i = 0; i < list.size(); i++) {
-            temp.add(list.get(i));
-        }
+        for (int i = start; i < nums.length; i++) {
 
-        ans.add(temp);
-
-        // Generate subsets
-        for (int i = index; i < nums.length; i++) {
-
-            // Skip duplicates
-            if (i > index && nums[i] == nums[i - 1]) {
+            // Skip duplicate choices at the same level
+            if (i > start && nums[i] == nums[i - 1]) {
                 continue;
             }
 
             // Choose
-            list.add(nums[i]);
+            current.add(nums[i]);
 
             // Explore
-            backtrack(i + 1, nums, list);
+            backtrack(nums, i + 1, current, result);
 
-            // Backtrack
-            list.remove(list.size() - 1);
+            // Undo
+            current.remove(current.size() - 1);
         }
     }
 }
