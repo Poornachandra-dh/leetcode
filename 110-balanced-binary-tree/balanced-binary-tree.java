@@ -1,40 +1,38 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
 class Solution {
-    public int levels(TreeNode root, boolean[] ans) {
-        if (root == null) return 0;
-
-        int leftHeight = levels(root.left, ans);
-        int rightHeight = levels(root.right, ans);
-
-        // If a subtree is already unbalanced, return immediately
-        if (!ans[0]) return -1;
-
-        // Check the balance condition
-        if (Math.abs(leftHeight - rightHeight) > 1) {
-            ans[0] = false;
-        }
-
-        // Return the height of the current subtree
-        return 1 + Math.max(leftHeight, rightHeight);
-    }
 
     public boolean isBalanced(TreeNode root) {
-        boolean[] ans = {true};
-        levels(root, ans);
-        return ans[0];
+        return height(root) != -1;
+    }
+
+    private int height(TreeNode node) {
+
+        // Empty tree has height 0
+        if (node == null) {
+            return 0;
+        }
+
+        // Height of left subtree
+        int left = height(node.left);
+
+        // Left subtree is unbalanced
+        if (left == -1) {
+            return -1;
+        }
+
+        // Height of right subtree
+        int right = height(node.right);
+
+        // Right subtree is unbalanced
+        if (right == -1) {
+            return -1;
+        }
+
+        // Current node is unbalanced
+        if (Math.abs(left - right) > 1) {
+            return -1;
+        }
+
+        // Return height of current subtree
+        return Math.max(left, right) + 1;
     }
 }
