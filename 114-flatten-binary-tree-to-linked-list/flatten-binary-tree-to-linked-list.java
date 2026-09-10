@@ -1,36 +1,22 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
- class Solution {
-public TreeNode preorder(TreeNode root, List<TreeNode>pre){
-if(root==null) return null;
-pre.add(root);
-preorder(root.left,pre);
-preorder(root.right,pre);
-return root;
-}
-    public void flatten(TreeNode root) {
-        List<TreeNode> pre= new ArrayList<>();
-         preorder(root,pre);
-        int n=pre.size();
-        for(int i=0;i<n;i++){
-            if(i!=n-1) pre.get(i).right=pre.get(i+1);
-            pre.get(i).left=null;
-        
-       
-    }
-    }
-}
+class Solution {
 
+    TreeNode prev = null;
+
+    public void flatten(TreeNode root) {
+
+        if (root == null) {
+            return;
+        }
+
+        // Reverse preorder: Right -> Left -> Root
+        flatten(root.right);
+        flatten(root.left);
+
+        // Connect current node to previously processed node
+        root.right = prev;
+        root.left = null;
+
+        // Current node becomes previous
+        prev = root;
+    }
+}
