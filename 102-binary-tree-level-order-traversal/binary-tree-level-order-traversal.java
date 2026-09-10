@@ -1,39 +1,42 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
- class Solution {
-    public static int level(TreeNode root){
-        if(root==null) return 0;
-        return 1+Math.max(level(root.left), level(root.right));
-    }
-    private void nth_level(TreeNode root, int level, int lvl,List<Integer>arr){
-        if(root==null) return;
-        if(level==lvl) arr.add(root.val);
-        nth_level(root.left,level+1,lvl,arr);
-        nth_level(root.right,level+1,lvl,arr);
-    }
-
-
+class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
-    List<List<Integer>>ans=new ArrayList<>();
-    int lvl=level(root);
-    for(int i=0;i<=lvl-1;i++){
-        List<Integer>arr=new ArrayList<>();
-        nth_level( root,0,i,arr);
-        ans.add(arr);
-    }    
-    return ans;
+
+        List<List<Integer>> result = new ArrayList<>();
+
+        if (root == null) {
+            return result;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+
+            int size = queue.size();
+
+            List<Integer> level = new ArrayList<>();
+
+            // Process only the current level
+            for (int i = 0; i < size; i++) {
+
+                TreeNode node = queue.poll();
+
+                level.add(node.val);
+
+                // Add next level's nodes
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+
+            result.add(level);
+        }
+
+        return result;
     }
 }
