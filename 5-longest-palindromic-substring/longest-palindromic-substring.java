@@ -1,29 +1,32 @@
 class Solution {
     public String longestPalindrome(String s) {
-        String ans = " ";
+        String ans ="";
         for(int i=0;i<s.length();i++){
             for(int j=i;j<s.length();j++){
                 String sub = s.substring(i,j+1);
-            
-            if(ispalind(sub)){
-            if(sub.length()>=ans.length()){
-                ans=sub;
+                    if(palindrome(sub)){
+                        if(ans.length()<sub.length()){
+                            ans= sub ;
+                        }
+
+                    }
+                }
+
             }
+            return ans ;
         }
-        }
-        }
-        return ans;
         
-    }
-    public boolean ispalind(String str ){
-        int left=0;
-        int right = str.length()-1;
-        while(left<right){
-            if(str.charAt(left)!=str.charAt(right)){
+        
+    
+    public boolean palindrome(String s ){
+        int low=0;
+        int high = s.length()-1;
+        while(low<=high){
+            if(s.charAt(low)!=s.charAt(high)){
                 return false;
             }
-            left++;
-            right--;
+            low++;
+            high--;
         }
         return true ;
     }
